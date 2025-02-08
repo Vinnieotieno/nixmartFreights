@@ -1,102 +1,97 @@
-import React, { useState, useEffect } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { ChevronDown, Globe, Users, Clock } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+"use client";
+
+import { useState, useEffect } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { Helmet } from "react-helmet";
+import { ChevronDown, ArrowRight, Truck, Box, ShieldCheck, Phone, Globe } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+const backgroundImages = [
+  "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070",
+  "https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2070",
+  "https://images.unsplash.com/photo-1506976785307-8732e854ad03?q=80&w=2070",
+  "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?q=80&w=2070",
+];
 
 const Hero = () => {
-  const [isClient, setIsClient] = useState(false)
-  const { scrollY } = useScroll()
-  const y = useTransform(scrollY, [0, 300], [0, 150])
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 300], [0, 150]);
 
   useEffect(() => {
-    setIsClient(true)
-  }, [])
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % backgroundImages.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
-  const stats = [
-    { icon: Globe, value: '175+', label: 'Countries Served' },
-    { icon: Users, value: '1000+', label: 'Happy Clients' },
-    { icon: Clock, value: '25+ Years', label: 'Industry Experience' },
-  ]
+  const scrollToContent = () => {
+    window.scrollTo({
+      top: window.innerHeight,
+      behavior: "smooth",
+    });
+  };
 
   return (
-    <div className="relative h-screen overflow-hidden">
-      {/* Background Image */}
-      {isClient && (
-        <motion.div 
-          className="absolute inset-0 z-0 bg-cover bg-center"
-          style={{
-            backgroundImage: "url('/profile2.jpg')",
-            y
-          }}
-        />
-      )}
-      {/* Reduced Overlay Transparency */}
-      <div className="absolute inset-0 bg-black bg-opacity-30 z-10" />
-      
-      {/* Hero Content */}
-      <div className="relative z-20 flex flex-col items-center justify-center px-4 text-white h-full pt-28 sm:pt-32">
-        {/* Heading */}
-        <motion.h1 
-          className="text-2xl sm:text-2xl mt-16 md:text-2xl lg:text-4xl font-bold tracking-wide text-center max-w-4xl leading-tight mb-4 sm:mb-6 z-30"
-          initial={{ opacity: 0, y: 20 }}
+    <div className="relative h-screen overflow-hidden bg-gradient-to-br from-blue-900 to-blue-700">
+      <Helmet>
+        <title>Nixmart Freight Forwarding Services | Leading Logistics Solutions</title>
+        <meta name="description" content="Experience top-tier freight and logistics solutions with Nixmart. Reliable, fast, and efficient shipping worldwide." />
+        <meta name="keywords" content="freight forwarding, logistics, shipping, global supply chain, Nixmart transport" />
+      </Helmet>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentImageIndex}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1 }}
+          className="absolute inset-0 z-0"
+          style={{ y }}
+        >
+          <div
+            className="absolute inset-0 bg-cover bg-center transition-transform duration-500"
+            style={{ backgroundImage: `url('${backgroundImages[currentImageIndex]}')` }}
+          />
+          <div className="absolute inset-0 bg-blue-900/80" />
+        </motion.div>
+      </AnimatePresence>
+
+      <div className="relative z-30 flex flex-col mt-14 items-center justify-center px-6 text-white h-full text-center">
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
+          className="text-4xl md:text-6xl mt-16 font-bold mb-4"
         >
-          DISCOVER THE GLOBEFLIGHT ADVANTAGE
+          NIXMART FREIGHT FORWARDING SERVICES
         </motion.h1>
-        
-        {/* Subheading */}
-        <motion.p 
-          className="text-sm sm:text-xl md:text-2xl text-center max-w-2xl mb-6 sm:mb-8 px-4 z-30"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          Your trusted partner in global logistics and supply chain solutions
-        </motion.p>
-        
-        {/* Buttons */}
-        <motion.div 
-          className="flex flex-col sm:flex-row justify-center gap-4 mb-8 sm:mb-12 w-full px-4 z-30"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
-          {/*<Button size="lg" className="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white">
-            Our Services
+        <p className="text-xl md:text-2xl font-light mb-6 text-blue-200 max-w-2xl">
+          Reliable Global Logistics Solutions Tailored to Your Needs
+        </p>
+
+        <motion.div className="flex flex-wrap gap-4 mb-8">
+          <Button size="lg" className="group bg-green-600 hover:bg-green-700 text-white px-6 py-3">
+            Our Services <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
           </Button>
-          <Button size="lg" variant="outline" className="w-full sm:w-auto text-white border-white hover:bg-white hover:text-black">
+          <Button size="lg" variant="outline" className="border-white text-white px-6 py-3 hover:bg-white hover:text-blue-900">
             Contact Us
-          </Button> */}
-        </motion.div>
-        
-        {/* Stats Section */}
-        <motion.div 
-          className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 w-full max-w-4xl px-4 z-30"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          {stats.map((stat, index) => (
-            <div key={index} className="flex flex-col items-center bg-black bg-opacity-50 p-4 rounded-lg text-center">
-              <stat.icon className="w-6 h-6 sm:w-10 sm:h-10 lg:w-12 lg:h-12 mb-2" />
-              <span className="text-lg sm:text-2xl lg:text-3xl font-bold">{stat.value}</span>
-              <span className="text-xs sm:text-sm lg:text-base uppercase tracking-wide">{stat.label}</span>
-            </div>
-          ))}
+          </Button>
         </motion.div>
       </div>
-      
-      {/* Chevron Icon */}
-      <motion.div 
-        className="absolute bottom-6 sm:bottom-8 left-1/2 transform -translate-x-1/2 z-30"
+
+      <motion.button
+        onClick={scrollToContent}
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30 flex flex-col items-center cursor-pointer"
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 1.5, repeat: Infinity }}
       >
-        <ChevronDown className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-      </motion.div>
+        <span className="text-blue-200 text-sm mb-2">Scroll to explore</span>
+        <ChevronDown className="w-6 h-6 text-blue-200" />
+      </motion.button>
     </div>
-  )
-}
+  );
+};
 
-export default Hero
+export default Hero;

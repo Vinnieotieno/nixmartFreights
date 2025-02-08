@@ -17,9 +17,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          {/* Define all routes using MainLayout
+          {/* Define all routes using MainLayout*/}
           <Route index element={<Home />} />
-          <Route path="services" element={<Services />} />
+          {/*<Route path="services" element={<Services />} />*/}
           <Route path="about-us" element={<About />} />
           <Route path="contact-us" element={<Contact />} />
           {/*<Route path="track" element={<Track />} />*/}
@@ -33,7 +33,7 @@ function App() {
               </Suspense>
             }
           />
-          */}
+          
           {/* Blog Routes 
           <Route
             path="blog"

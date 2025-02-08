@@ -1,33 +1,5 @@
 import { CalendarClock, Globe2, ShieldCheck, Truck } from "lucide-react";
 
-export const whychooseus = {
-  title: "Safe, Reliable And Express Logistics Transport Solutions That Saves Your Time!",
-  subTitle: "WHY CHOOSE GLOBEFLIGHT WORLDWIDE EXPRESS",
-  desc: "We pride ourselves on providing the best transport and shipping services available allover the world. Our skilled personnel, utilising the latest communications, tracking and processing, combined with decades of experience! We take great pride in providing unparalleled shipping and transportation services worldwide. Leveraging advanced tracking software, streamlined processing, effective communication, and drawing upon our knowledgeable staff's decades of experience, we extend our commitment to excellence to both logistics and immigration services.",
-};
-
-export const whychooseusCards = [
-  {
-    icon: ShieldCheck,
-    title: "Safe Packing",
-    desc: "Regulations must be circumvented in global supply chains",
-  },
-  {
-    icon: Globe2,
-    title: "Ship Everywhere",
-    desc: "Regulations are frequently contested in global supply chains",
-  },
-  {
-    icon: CalendarClock,
-    title: "In Time Delivery",
-    desc: "International supply chains involve difficult regulations",
-  },
-  {
-    icon: Truck,
-    title: "Fastest Shipping",
-    desc: "International supply chains are subject to stringent regulations",
-  },
-];
 
 export const logisticServicesContent = [
   {
@@ -182,22 +154,6 @@ export const testimonials = [
   },
 ];
 
-export const ctaImges = [
-  "https://th.bing.com/th/id/R.4ae95f35b0f49790f92357f09337d546?rik=hHxl%2fbpZCzAvaw&pid=ImgRaw&r=0",
-  "https://th.bing.com/th?id=OIF.crR8Q77ad1W56Ls%2fFWtgUg&rs=1&pid=ImgDetMain",
-  "https://fbbkinfotech.com/img/fbbk-about.jpg",
-  "https://th.bing.com/th/id/R.585d9c785c64ffaa8f872a9b356c7df6?rik=mgZycK6LQIz3Kg&riu=http%3a%2f%2fwww.navata.com%2fcms%2fwp-content%2fuploads%2f2020%2f05%2f3PL-Logistics-Company-2.jpg&ehk=rl1gR2o%2bW%2b1DmaXbin6ZxcCePHvnjSYKL3w7y1mhXNA%3d&risl=&pid=ImgRaw&r=0",
-];
 
-export const brands = [
-  "https://www.tripfiction.com/wp-content/uploads/2016/08/1920x1080-brands-amazon-logo.jpg",
-  "https://www.thedrive.com/content/2018/08/ebay-logo.jpg?quality=85",
-  "https://th.bing.com/th/id/R.65bc2af0231be020faa1a6a9576be04a?rik=lPUAQ8q5GdFOtQ&pid=ImgRaw&r=0",
-  "https://th.bing.com/th/id/OIP.qRUBW_JvdcVe9-jNWyF7nQAAAA?w=412&h=218&rs=1&pid=ImgDetMain",
-  "https://logos-world.net/wp-content/uploads/2020/05/Zara-Logo-2008-2019.png",
-  "https://download.logo.wine/logo/Sports_Direct/Sports_Direct-Logo.wine.png",
-  "https://th.bing.com/th/id/OIP.WPAIQstl2ZqZ9eVaVosgwQHaCQ?rs=1&pid=ImgDetMain",
-  "https://logodownload.org/wp-content/uploads/2022/09/zalando-logo.png",
-  "https://th.bing.com/th/id/OIP.8yw1oIHPnQUF8FB1CsKv_QHaCf?rs=1&pid=ImgDetMain",
-  "https://th.bing.com/th/id/OIP.6IGiaFwpvmpQYkLSR42JAAHaCl?rs=1&pid=ImgDetMain",
-];
+
+

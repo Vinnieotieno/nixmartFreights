@@ -23,21 +23,21 @@ export const footerItems = {
   socials: [
     {
       icon: Facebook,
-      link: "https://www.facebook.com/share/nTLPNRVhhM3pYzgS/?mibextid=qi2Omg",
+      link: "",
     },
     
     {
       icon: Twitter,
-      link: "https://www.instagram.com/worldwings609?igsh=c2wyNjg4NGxpb3Nx",
+      link: "",
     },
     {
       icon: Linkedin,
-      link: "https://www.instagram.com/worldwings609?igsh=c2wyNjg4NGxpb3Nx",
+      link: "",
     
     },
     {
       icon: Youtube,
-      link: "https://www.instagram.com/worldwings609?igsh=c2wyNjg4NGxpb3Nx",
+      link: "",
     },
   ],
 };

@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+"use client"
+
+import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
+import { motion, AnimatePresence } from "framer-motion"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 export default function CallToActionSection() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const ctaImages = [
-    '/cta1.jpg?height=300&width=600',
-    '/Air.jpg?height=300&width=600',
-    '/Sea.jpg?height=30000&width=600',
-    '/Ecommerce.jpg?height=300&width=600',
-    '/Consolidation.jpg?height=300&width=600',
-    '/Warehouse.jpg?height=300&width=600',
+    "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=1200&q=80",
+    
   ]
 
   useEffect(() => {
@@ -30,28 +30,28 @@ export default function CallToActionSection() {
   }
 
   return (
-    <section className="relative overflow-hidden mt-6 bg-gray-200 py-12 sm:py-18">
-      <div className="container mx-auto px-6 sm:px-6 lg:px-8">
-        <div className="bg-gray-300 rounded-lg shadow-lg p-8 md:p-12">
-          <div className="grid gap-12 lg:grid-cols-2 lg:gap-8 items-center">
+    <section className="relative overflow-hidden py-16 sm:py-24 bg-gradient-to-br from-blue-50 to-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+          <div className="grid lg:grid-cols-2 items-center">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-center lg:text-left"
+              className="p-8 md:p-12 lg:p-16"
             >
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">
-                Let us help you find a solution that meets your{' '}
-                <span className="text-green-600">Logistic needs</span>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                Streamline Your <span className="text-blue-600">Global Logistics</span> with Nixmart Freight forwarding Services
               </h2>
               <p className="text-xl text-gray-700 mb-8">
-                Take advantage of our extensive experience and let Globeflight find the right solution that fits your pocket as well
+                Leverage our expertise in international freight forwarding to optimize your supply chain and expand your
+                global reach.
               </p>
               <Link
                 to="/contact-us"
-                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700 transition duration-150 ease-in-out"
+                className="inline-flex items-center px-6 py-3 text-lg font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105"
               >
-                Get in Touch with us Today
+                Get a Custom Quote
                 <ChevronRight className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
               </Link>
             </motion.div>
@@ -59,26 +59,32 @@ export default function CallToActionSection() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
-              className="relative"
+              className="relative h-96 lg:h-full"
             >
-              <div className="aspect-w-16 aspect-h-6 rounded-lg overflow-hidden shadow-xl">
-                <img
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={currentImageIndex}
                   src={ctaImages[currentImageIndex]}
-                  alt={`Globeflight services ${currentImageIndex + 1}`}
+                  alt={`Nixmart freight forwarding services ${currentImageIndex + 1}`}
                   className="object-cover w-full h-full"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
                 />
-              </div>
+              </AnimatePresence>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-transparent opacity-20"></div>
               <div className="absolute inset-0 flex items-center justify-between p-4">
                 <button
                   onClick={prevImage}
-                  className="p-2 rounded-full bg-black bg-opacity-50 text-white hover:bg-opacity-75 transition duration-150 ease-in-out"
+                  className="p-2 rounded-full bg-white bg-opacity-50 text-blue-600 hover:bg-opacity-75 transition duration-300 ease-in-out"
                   aria-label="Previous image"
                 >
                   <ChevronLeft className="h-6 w-6" />
                 </button>
                 <button
                   onClick={nextImage}
-                  className="p-2 rounded-full bg-black bg-opacity-50 text-white hover:bg-opacity-75 transition duration-150 ease-in-out"
+                  className="p-2 rounded-full bg-white bg-opacity-50 text-blue-600 hover:bg-opacity-75 transition duration-300 ease-in-out"
                   aria-label="Next image"
                 >
                   <ChevronRight className="h-6 w-6" />
@@ -91,3 +97,4 @@ export default function CallToActionSection() {
     </section>
   )
 }
+

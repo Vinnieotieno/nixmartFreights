@@ -25,10 +25,10 @@ const index = () => {
           styles="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-5 my-7"
           data={whereWeWorkCards}
         />
-        <Testimonials />
+       {/*} <Testimonials />*/}
       </Container>
-      <Brands />
-      <Clients/>
+      {/*<Brands />*/}
+      {/*<Clients/>*/}
       <CallToActionSection />
       <ScrollOnSideSection />
     </div>

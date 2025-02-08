@@ -1,14 +1,17 @@
+"use client"
+
 import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { motion } from "framer-motion"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/components/ui/use-toast"
-import { Loader2, Send, MapPin, Phone, Mail, Globe } from "lucide-react"
+import { Loader2, Send, MapPin, Phone, Mail, Globe, Truck, Ship, Plane } from "lucide-react"
 
 // Form validation schema
 const contactFormSchema = yup.object().shape({
@@ -16,6 +19,7 @@ const contactFormSchema = yup.object().shape({
   lastName: yup.string().required("Last name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
   mobileNumber: yup.string().required("Mobile number is required"),
+  serviceType: yup.string().required("Service type is required"),
   message: yup.string().required("Message is required"),
 })
 
@@ -23,35 +27,39 @@ const contactCards = [
   {
     icon: MapPin,
     title: "Our Office",
-    desc: "Visit us at our main office",
-    location: "123 Business Avenue, Tech City, TC 12345",
+    desc: "Visit our main logistics hub",
+    location: "Donholm Business Center, Nairobi, Kenya",
   },
   {
     icon: Phone,
     title: "Phone",
-    desc: "Mon-Fri from 8am to 5pm",
-    contact: "+1 (555) 000-0000",
+    desc: "24/7 Customer Support",
+    contact: "+254 704 428 003",
   },
   {
     icon: Mail,
     title: "Email",
-    desc: "Our friendly team is here to help",
-    contact: "hello@example.com",
+    desc: "Get in touch for inquiries",
+    contact: "info@nixmart.co.ke",
   },
   {
     icon: Globe,
-    title: "Social Media",
-    desc: "Follow us on social media",
-    socials: [
-      { name: "Twitter", url: "https://twitter.com" },
-      { name: "Facebook", url: "https://facebook.com" },
-      { name: "Instagram", url: "https://instagram.com" },
-    ],
+    title: "Global Network",
+    desc: "Our worldwide presence",
+    locations: ["East Africa", "Europe", "Asia", "Americas"],
   },
+]
+
+const serviceTypes = [
+  { icon: Truck, label: "Road Freight" },
+  { icon: Ship, label: "Sea Freight" },
+  { icon: Plane, label: "Air Freight" },
 ]
 
 export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [selectedService, setSelectedService] = useState(null)
+
   const form = useForm({
     resolver: yupResolver(contactFormSchema),
     defaultValues: {
@@ -59,6 +67,7 @@ export default function ContactForm() {
       lastName: "",
       email: "",
       mobileNumber: "",
+      serviceType: "",
       message: "",
     },
     mode: "onSubmit",
@@ -67,13 +76,14 @@ export default function ContactForm() {
   async function onSubmit(values) {
     setIsSubmitting(true)
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000)) // Simulating an API call
+      await new Promise((resolve) => setTimeout(resolve, 2000)) // Simulating an API call
       console.log(values)
       toast({
         title: "Message Sent!",
-        description: "We'll get back to you as soon as possible.",
+        description: "Our team will contact you shortly about your " + values.serviceType + " inquiry.",
       })
       form.reset()
+      setSelectedService(null)
     } catch (error) {
       toast({
         title: "Error",
@@ -86,15 +96,31 @@ export default function ContactForm() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold text-center mb-4 text-green-600">Get in Touch</h1>
-      <p className="text-xl text-center text-muted-foreground mb-12">We'd love to hear from you. Let us know how we can help.</p>
+    <div className="container mx-auto px-4 py-12 bg-gradient-to-br from-blue-50 to-white">
+      <motion.h1
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-4xl font-bold text-center mb-4 text-blue-600"
+      >
+        Connect with Nixmart
+      </motion.h1>
+      <motion.p
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="text-xl text-center text-gray-600 mb-12"
+      >
+        Let's discuss how we can optimize your Supply Chain.
+      </motion.p>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <Card className="lg:col-span-2">
+        <Card className="lg:col-span-2 shadow-lg">
           <CardHeader>
-            <CardTitle className="text-2xl font-bold">Send us a Message</CardTitle>
-            <CardDescription>Fill out the form below and we'll get back to you as soon as possible.</CardDescription>
+            <CardTitle className="text-2xl font-bold text-blue-700">Request a Quote</CardTitle>
+            <CardDescription>
+              Tell us about your freight forwarding needs and we'll get back to you promptly.
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <Form {...form}>
@@ -148,7 +174,7 @@ export default function ContactForm() {
                       <FormItem>
                         <FormLabel>Mobile Number</FormLabel>
                         <FormControl>
-                          <Input type="tel" placeholder="+1 (555) 000-0000" {...field} />
+                          <Input type="tel" placeholder="+254 700 000 000" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -157,18 +183,50 @@ export default function ContactForm() {
                 </div>
                 <FormField
                   control={form.control}
+                  name="serviceType"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Service Type</FormLabel>
+                      <div className="flex space-x-4">
+                        {serviceTypes.map((service, index) => (
+                          <Button
+                            key={index}
+                            type="button"
+                            variant={field.value === service.label ? "default" : "outline"}
+                            className={`flex-1 ${field.value === service.label ? "bg-blue-600 text-white" : "text-blue-600"}`}
+                            onClick={() => {
+                              field.onChange(service.label)
+                              setSelectedService(service.label)
+                            }}
+                          >
+                            {React.createElement(service.icon, { className: "mr-2 h-4 w-4" })}
+                            {service.label}
+                          </Button>
+                        ))}
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
                   name="message"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Message</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="How can we help you?" className="resize-none" rows={5} {...field} />
+                        <Textarea
+                          placeholder="Tell us about your shipment needs"
+                          className="resize-none"
+                          rows={5}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full" disabled={isSubmitting}>
+                <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" disabled={isSubmitting}>
                   {isSubmitting ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -176,7 +234,7 @@ export default function ContactForm() {
                     </>
                   ) : (
                     <>
-                      Send Message
+                      Request Quote
                       <Send className="ml-2 h-4 w-4" />
                     </>
                   )}
@@ -188,39 +246,48 @@ export default function ContactForm() {
 
         <div className="space-y-6">
           {contactCards.map((card, idx) => (
-            <Card key={idx}>
-              <CardHeader>
-                <div className="flex items-center space-x-4">
-                  <div className="p-2 rounded-full bg-primary/10">
-                    {React.createElement(card.icon, { className: "h-6 w-6 text-primary" })}
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+            >
+              <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
+                <CardHeader>
+                  <div className="flex items-center space-x-4">
+                    <div className="p-2 rounded-full bg-blue-100">
+                      {React.createElement(card.icon, { className: "h-6 w-6 text-blue-600" })}
+                    </div>
+                    <div>
+                      <CardTitle className="text-lg font-semibold text-blue-700">{card.title}</CardTitle>
+                      <CardDescription>{card.desc}</CardDescription>
+                    </div>
                   </div>
-                  <div>
-                    <CardTitle className="text-lg font-semibold">{card.title}</CardTitle>
-                    <CardDescription>{card.desc}</CardDescription>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                {card.location && <p className="text-sm text-muted-foreground">{card.location}</p>}
-                {card.contact && (
-                  <a href={card.title === "Email" ? `mailto:${card.contact}` : `tel:${card.contact}`} className="text-sm font-medium text-primary hover:underline">
-                    {card.contact}
-                  </a>
-                )}
-                {card.socials && (
-                  <div className="flex space-x-4">
-                    {card.socials.map((social, idx) => (
-                      <a key={idx} href={social.url} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-primary hover:underline">
-                        {social.name}
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+                </CardHeader>
+                <CardContent>
+                  {card.location && <p className="text-sm text-gray-600">{card.location}</p>}
+                  {card.contact && (
+                    <a
+                      href={card.title === "Email" ? `mailto:${card.contact}` : `tel:${card.contact}`}
+                      className="text-sm font-medium text-blue-600 hover:underline"
+                    >
+                      {card.contact}
+                    </a>
+                  )}
+                  {card.locations && (
+                    <ul className="list-disc list-inside text-sm text-gray-600">
+                      {card.locations.map((location, idx) => (
+                        <li key={idx}>{location}</li>
+                      ))}
+                    </ul>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
         </div>
       </div>
     </div>
   )
 }
+

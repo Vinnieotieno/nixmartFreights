@@ -1,147 +1,135 @@
-'use client'
+"use client"
 
-import React, { useState, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Link } from "react-router-dom"
-import { Volume2, VolumeX, ChevronDown } from 'lucide-react'
-import aeroplane from "@/assets/aeroplane.png"
-import video from "@/assets/herovid.mp4"
+import { ChevronDown, Truck, Shield, Users, HeartHandshake, X } from "lucide-react"
 
 const Hero = () => {
-  const [isMuted, setIsMuted] = useState(true)
   const [showValues, setShowValues] = useState(false)
-  const videoRef = useRef(null)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted
-      setIsMuted(!isMuted)
-    }
-  }
+  const images = [
+    "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=2070&q=80",
+    "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=2070&q=80",
+    "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=2070&q=80",
+  ]
 
-  const scrollToServices = () => {
-    const servicesSection = document.getElementById('services')
-    if (servicesSection) {
-      servicesSection.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length)
+    }, 5000)
+    return () => clearInterval(interval)
+  }, [])
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden">
-      {/* Video Background Section */}
-      <div className="absolute inset-0">
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted={isMuted}
-          playsInline
-          className="w-full h-full object-cover"
-        >
-          <source src={video} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <div className="absolute inset-0 bg-black bg-opacity-60" />
-      </div>
+    <div className="relative w-full min-h-screen mt-12 flex flex-col items-center justify-center text-center overflow-hidden">
+      {/* Background Image Section */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentImageIndex}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1 }}
+          className="absolute inset-0 w-full h-full bg-cover bg-center"
+          style={{
+            backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9)), url(${images[currentImageIndex]})`,
+          }}
+        />
+      </AnimatePresence>
 
       {/* Content Section */}
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-20">
-        <motion.h1 
+      <div className="relative z-10 flex flex-col items-center px-6 py-20">
+        <motion.h1
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-wider text-center mb-6"
+          className="text-white text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-wide"
         >
-          LOGISTICS 24.SEVEN.365
+          NIXMART LOGISTICS
         </motion.h1>
-        
+
         <motion.h2
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-white text-xl sm:text-2xl md:text-3xl font-medium text-center mb-10 max-w-3xl"
+          className="text-white text-xl md:text-2xl lg:text-3xl font-medium mt-4 max-w-3xl"
         >
-          Your Trusted & Credible Logistics, Warehousing & Fulfillment Partner
+          Your Trusted & Credible Freight Forwarding Partner
         </motion.h2>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
+          initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6"
-        >
-          <Button 
-            size="lg" 
-            variant="secondary"
-            onClick={scrollToServices}
-            className="w-full sm:w-auto text-lg"
-          >
-            Explore Logistics
-          </Button>
-          <Button 
-            size="lg" 
-            variant="default"
-            asChild
-            className="w-full sm:w-auto text-lg"
-          >
-            <Link to="/contact">Contact Us</Link>
-          </Button>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center"
+          className="flex flex-col sm:flex-row items-center mt-8 space-y-4 sm:space-y-0 sm:space-x-6"
         >
           <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setShowValues(!showValues)}
-            className="text-white hover:text-green-400 transition-colors"
+            size="lg"
+            variant="secondary"
+            className="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-3 rounded-lg shadow-md hover:scale-105 transition-transform"
           >
-            <ChevronDown className="h-8 w-8" />
+            Explore Our Services
           </Button>
-          <span className="text-white text-sm mt-2">Our Values</span>
+          <Button
+            size="lg"
+            variant="outline"
+            asChild
+            className="border-white text-white px-6 py-3 rounded-lg hover:bg-white hover:text-blue-500 transition-all"
+          >
+            <Link to="/contact">Get a Quote</Link>
+          </Button>
         </motion.div>
+      </div>
 
+      {/* Values Section Toggle */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.6 }}
+        className="absolute bottom-12 left-1/2 transform -translate-x-1/2"
+      >
         <Button
           variant="ghost"
           size="icon"
-          onClick={toggleMute}
-          className="absolute top-4 right-4 text-white hover:text-green-400 transition-colors"
+          onClick={() => setShowValues(!showValues)}
+          className="text-white hover:text-blue-400 transition-colors"
         >
-          {isMuted ? <VolumeX className="h-6 w-6" /> : <Volume2 className="h-6 w-6" />}
+          <ChevronDown className="h-8 w-8" />
         </Button>
-      </div>
+        <span className="text-white text-sm mt-2 block">Our Core Values</span>
+      </motion.div>
 
-      {/* Values Card Section */}
+      {/* Values Section */}
       <AnimatePresence>
         {showValues && (
           <motion.div
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 100 }}
-            transition={{ type: 'spring', stiffness: 100 }}
-            className="absolute bottom-0 left-0 right-0 z-20"
+            transition={{ type: "spring", stiffness: 100 }}
+            className="fixed left-0 right-0 top-1/2 transform -translate-y-1/2 z-50 flex items-center justify-center p-4"
           >
-            <Card className="bg-green-500 text-white shadow-xl p-6 mx-auto w-[90%] sm:w-[85%] md:w-[75%] lg:w-[60%] xl:w-[55%]">
-              <div className="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
-                <div className="flex items-center space-x-4">
-                  <Button variant="secondary" className="bg-white text-green-500 font-bold">
-                    OUR VALUES
-                  </Button>
-                  <img
-                    src={aeroplane}
-                    alt="Aeroplane"
-                    className="w-12 h-12 object-contain"
-                  />
+            <Card className="bg-blue-800 bg-opacity-90 text-white shadow-2xl rounded-2xl overflow-hidden w-full max-w-4xl">
+              <div className="relative p-6 md:p-8">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setShowValues(false)}
+                  className="absolute top-2 right-2 text-white hover:text-blue-200 transition-colors"
+                >
+                  <X className="h-6 w-6" />
+                </Button>
+                <h3 className="text-2xl md:text-3xl font-bold mb-6 text-center">Our Core Values</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <ValueItem icon={Shield} text="Commitment" />
+                  <ValueItem icon={HeartHandshake} text="Integrity" />
+                  <ValueItem icon={Users} text="Professionalism" />
+                  <ValueItem icon={Truck} text="Customer Service" />
                 </div>
-                <p className="text-center sm:text-left text-lg sm:text-xl md:text-2xl font-bold">
-                  Reliability, Integrity, Efficiency, Innovation & Professionalism
-                </p>
               </div>
             </Card>
           </motion.div>
@@ -151,4 +139,15 @@ const Hero = () => {
   )
 }
 
+const ValueItem = ({ icon: Icon, text }) => (
+  <motion.div
+    whileHover={{ scale: 1.05 }}
+    className="flex flex-col items-center justify-center bg-blue-700 bg-opacity-50 rounded-lg shadow-md p-4 aspect-square"
+  >
+    <Icon className="h-12 w-12 mb-3 text-blue-200" />
+    <h4 className="font-semibold text-lg text-center">{text}</h4>
+  </motion.div>
+)
+
 export default Hero
+
